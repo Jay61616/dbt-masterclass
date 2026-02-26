@@ -1,0 +1,35 @@
+version: '3.9' 
+ 
+services: 
+ postgres: 
+   image: postgres:15 
+   container_name: dbt_postgres 
+   restart: always 
+   environment: 
+     POSTGRES_USER: dbt_user 
+     POSTGRES_PASSWORD: dbt_password 
+     POSTGRES_DB: dbt_warehouse 
+   ports: 
+     - "5432:5432" 
+   volumes: 
+     - postgres_data:/var/lib/postgresql/data 
+   networks: 
+     - dbt_network 
+ 
+ dbt: 
+   build: . 
+   container_name: dbt_core 
+   volumes: 
+     - ./dbt_project:/usr/app 
+     - ./dbt_project/.dbt:/root/.dbt
+   depends_on: 
+     - postgres 
+   networks: 
+     - dbt_network 
+ 
+volumes: 
+ postgres_data: 
+ 
+networks: 
+ dbt_network: 
+   driver: bridge 

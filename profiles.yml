@@ -1,0 +1,22 @@
+dbt_production_profile:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgres
+      user: dbt_user
+      password: dbt_password
+      port: 5432
+      dbname: dbt_warehouse
+      schema: dev_schema
+      threads: 4
+    
+    prod:
+      type: postgres
+      host: postgres
+      user: dbt_user
+      password: dbt_password
+      port: 5432
+      dbname: dbt_warehouse
+      schema: prod_schema
+      threads: 8
